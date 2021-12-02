@@ -68,13 +68,18 @@ class Sequence:
     # 差分累加
     def diff(self, tp='d'):
         if tp == 'd':
-            self.seq = [(x1[i + 1] - x1[i]) for i in range(self.start, self.tail)]
+            #self.seq = [(x1[i + 1] - x1[i]) for i in range(self.start, self.tail)]
+            for i in range(len(self.seq) - 1):
+                self.seq[i] = self.seq[i + 1] - self.seq[i]
+            self.seq.pop()
+            self.tail = self.tail - 1
             return self.seq
         elif tp == 'a':
             sum = 0
-            for i in range(self.start, self.tail + 1):
-                sum += x1[i]
-            return sum
+            for i in range(len(self.seq)):
+                sum += self.seq[i]
+                self.seq[i] = sum
+            return self.seq
 
     # 加法
     def __add__(self, other):
@@ -108,15 +113,13 @@ class Sequence:
             for i in range(self.start, self.tail-(l-1)+1):
                 sum = 0
                 for j in range(l):
-                    #print(kern[j])
-                    # print(self[i+j])
                     sum += kern[j] * self[i+j]
                 print(sum)
                 li[i-self.start+l-1]=sum
             self.start += (l-1)
             self.seq = copy.deepcopy(li[1:])
         elif mode == 'C':
-            self.seq = self.seq[-l+1:]+self.seq+self[:self.start+l-1]
+            self.seq = self.seq[-l+1:]+self.seq+self.seq[:self.start+l-1]
             self.start -= l-1
             self.tail += l-1
             li = copy.deepcopy(self.seq)
@@ -177,16 +180,20 @@ class Sequence:
     # 零均值与归一化
     def norm(self):
         mean=0
-        for i in range(self.start,self.tail+1):
-            mean += self[i]
-        for i in range(self.start,self.tail+1):
-            self[i] /= mean  # 归一化
+        for i in range(len(self.seq)):
+            mean += self.seq[i]
         mean /= len(self.seq)
-        for i in range(self.start,self.tail+1):
-            self[i] -= mean  # 零均值
-
+        for i in range(len(self.seq)):
+            self.seq[i] -= mean  # 零均值
+        mean=0
+        for i in range(len(self.seq)):
+            mean += (self.seq[i] * self.seq[i])  # 归一化
+        import math
+        mean = math.sqrt(mean)
+        for i in range(len(self.seq)):
+            self.seq[i] = self.seq[i] / mean
 if __name__ == '__main__':
-    print("--------欢迎使用序列计算机v1.0！--------")
+    print("--------序列计算机v1.0！--------")
     print(">> 说明：本计算机对原始序列x进行变换，但操作需要时也可输入新的序列")
     print(">> 准备就绪，输入'q'退出使用")
 
@@ -293,19 +300,5 @@ if __name__ == '__main__':
                 print(x2.comp(t,s))
                 print("index: start=%(s)d, end=%(e)d" % {"s": x2.start, "e": x2.tail})
         c = input(
-            ">> 输入以下数字之一选择操作：\n\t0：初始化序列以及查看该序列内容；1：补零；2：延迟/提前；3：反转；4：拉伸/压缩；5：一阶差分/累加；6：序列间加法；7：序列间乘法；8：卷积；9：相似性比对\n")
+            ">> 输入以下数字之一选择操作：\n\t0：初始化序列以及查看该序列内容；1：补零；2：延迟/提前；3：反转；4：拉伸/压缩；5：一阶差分/累加；6：序列间加法；7：序列间乘法；8：卷积；9：相似性比对；q：退出使用\n")
     print("--------感谢使用！--------")
-    
-
-
-    # print('--------延迟/提前--------')
-    # print('请输入')
-    # print(x[-4])
-    # print(x.stretch(0.5))
-    # print(x.extension(-4, 5))
-    # print((x.delay(3))[-2])  # python自动按照倒数第二个返回列表值？？
-    # print(x+x1)
-    # print(x*x1)
-    '''
-    start=-3, k=-1, length = 8, start+2=k
-    '''
