@@ -5,7 +5,7 @@ Digital signal processing assignments. In the 5th semester in CC NKU, taught by 
 ### Manually complete a Fourier and an inverse Fourier transform function, and observe the effect.
 1. Please manually write a Fourier transform and an inverse Fourier transform.
 2. Please use your own input sequence, after continuous Fourier transform and inverse transform, observe whether there is any difference between the output and the input sequence.
-3. Please call the -fast Fourier function in any library in the programming environment you are using, observe the efficiency comparison of handwritten Fourier transform and fast Fourier transform, and observe the relationship of time consumption through the test of different length sequences.
+3. Please call the fast Fourier function in any library in the programming environment you are using, observe the efficiency comparison of handwritten Fourier transform and fast Fourier transform, and observe the relationship of time consumption through the test of different length sequences.
 ### Concept filter design (all functions needed for this problem can be implemented by tuning).
 1. Design high-pass or low-pass ideal brick filter in the frequency domain (filter format, cut-off frequency, etc. can be designed by yourself).
 2. Transform the filter to the time domain through the inverse Fourier transform, and perform convolution operation with the input signal.
